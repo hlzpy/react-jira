@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+
 export const isVoid = (value) =>
   value === undefined || value === null || value === "";
 
@@ -14,4 +16,20 @@ export const cleanObject = (object) => {
     }
   });
   return result;
+};
+
+export const useMount = (callback) => {
+  useEffect(() => {
+    callback();
+  }, []);
+};
+
+export const useDebounce = (value, delay) => {
+  const [debounceValue, setDebounceValue] = useState(value);
+  useEffect(() => {
+    const timer = setTimeout(() => setDebounceValue(value), delay);
+    return () => clearTimeout(timer);
+  }, [value, delay]);
+
+  return debounceValue;
 };
